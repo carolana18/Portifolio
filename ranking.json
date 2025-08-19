@@ -1,0 +1,27 @@
+{
+    "facil": [
+        {
+            "nick": "le",
+            "tempo": 10
+        },
+        {
+            "nick": "ana",
+            "tempo": 20
+        },
+        {
+            "nick": "anacarolina",
+            "tempo": 51
+        },
+        {
+            "nick": "ana",
+            "tempo": 74
+        }
+    ],
+    "medio": [
+        {
+            "nick": "anacarolina",
+            "tempo": 127
+        }
+    ],
+    "dificil": []
+}

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portifolio</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+      <script>
+        // MENU RESPONSIVO
+            const toggle = document.querySelector(".menu-toggle");
+            const menu = document.querySelector(".menu");
+            toggle.addEventListener("click", () => {
+                menu.classList.toggle("active");
+            });
+        </script>
+    <body>
+        <!-- NAVBAR -->
+        <header>
+            <nav class="navbar">
+                <!--botão hamburguer-->
+                <div class="menu-toggle"><i class="fa fa-bars"></i></div>
+                <!--menu ( ainda não funcionando)-->
+                <ul class="menu">
+                    <li><a href="#inicio">INICIAL</a></li>
+                    <li><a href="#sobre">SOBRE MIM</a></li>
+                    <li><a href="#cursos">CURSOS</a></li>
+                    <li><a href="#trabalhos">TRABALHOS</a></li>
+                    <li><a href="#contatos">CONTATOS</a></li>
+                </ul>
+                <!--buscar(ainda não funcionando)-->
+                <form class="nav-search" role="search" onsubmit="return false">
+                    <input type="search" placeholder="Pesquisar..." aria-label="Pesquisar">
+                    <button type="submit" aria-label="Buscar"><i class="fa fa-search"></i></button>
+                </form>
+                
+            </nav>
+        </header>
+
+        <!-- INÍCIO -->
+        <section id="inicio" class="inicio">
+            <div class="foto"></div>
+            <h1>Ana Carolina de Souza Passos</h1>
+            <h2>DESENVOLVEDORA WEB</h2>
+        </section>
+
+        <!-- SOBRE MIM -->
+        <section id="sobre" class="sobre">
+            <h2>SOBRE MIM</h2>
+            <h3>Formação</h3>
+            <p>
+                Realizei o ensino médio técnico em informática para internet no Instituto Federal do Acre 
+                e atualmente curso bacharelado em Engenharia Eletrônica e da Computação na UFRJ.
+            </p>
+
+            <h3>Experiências Acadêmicas</h3>
+            <p>
+                Participei de eventos como a Semana de Tecnologia do IFAC (Teckweek) e OBR. 
+                Apresentei trabalho no VIII CONGRESSO DE CIÊNCIA E TECNOLOGIA sobre aplicativo de resiliência 
+                contra eventos climáticos em Rio Branco – Acre. Também atuei no projeto Aproximação Digital 
+                e no projeto #MaisEmpreendedor, auxiliando empresas e criando identidades visuais e mídias sociais.
+            </p>
+        </section>
+
+        <!-- CURSOS -->
+        <section id="cursos" class="cursos">
+            <h2>CURSOS</h2>
+            <div class="grid">
+                <div class="card">DIGICURSOS ZONA LESTE <br>2020 - 2020<br>Informática Avançada</div>
+                <div class="card">FUNDAÇÃO BRADESCO <br>2022 - 2022<br>Inovando com CSS</div>
+                <div class="card">FUNDAÇÃO BRADESCO <br>2022 - 2022<br>Fundamentos do Design Gráfico</div>
+                <div class="card">FUNDAÇÃO BRADESCO <br>2022 - 2022<br>Introdução ao JavaScript</div>
+                <div class="card">ENAP <br>2025 - 2025<br>Ética IA</div>
+            </div>
+        </section>
+
+        <!-- TRABALHOS -->
+        <section id="trabalhos" class="trabalhos">
+            <h2>TRABALHOS</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>JOGO NONOGRAM - PYTHON</h3>
+                    <p>Jogo de lógica em Python preenchendo células da grade com base em números nas linhas e colunas.</p>
+                    <a href="jogando nonogram.zip">Ver trabalho</a>
+                </div>
+                <div class="card">
+                    <h3>PROTÓTIPO EXTREMUS - FIGMA</h3>
+                    <p>Protótipo de alta fidelidade de um aplicativo informacional  sobre enchentes e alagações em Rio Branco - Acre.</p>
+                    <a href="https://www.figma.com/design/TzeEurqjEilByV0RsAiVGF/Prot%C3%B3tipo-EXTREMUS?node-id=0-1&t=Ng2LX6I89Y3K32y0-1">Ver trabalho</a>
+                </div>
+                <div class="card">
+                    <h3>BLOG PESSOAL - HTML/CSS</h3>
+                    <p>Desenvolvimento de blog pessoal usando HTML e CSS.</p>
+                    <a href="blog.html">Ver trabalho</a>
+                </div>
+                <div class="card">
+                    <h3>CALCULADORA - PYTHON</h3>
+                    <p>Desenvolvimento de uma calculadora em Python.</p>
+                    <a href="#">Ver trabalho</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTATOS -->
+        <footer id="contatos">
+             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+            <div class="social">
+                <a href="https://github.com/carolana18"><i class="fa-brands fa-github fa-lg"></i> 
+                </a>
+                <a href="https://www.instagram.com/anax_passos?igsh=OXp0dm9xNGh3cHRh"><i class="fa-brands fa-instagram fa-lg"></i></a>
+                <a href="https://www.linkedin.com/in/anacarolpassos?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app "><i class="fa-brands fa-linkedin fa-lg"></i></a>
+            </div>
+        </footer>
+
+    </body>
+</html>
