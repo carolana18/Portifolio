@@ -12,7 +12,54 @@ body {
   line-height: 1.6;
 }
 
-/* NAVBAR */
+/* BOTÃO DE TROCA DE TEMA */
+.theme-toggle {
+  background: none;
+  border: none;
+  color: #ff4500;
+  font-size: 20px;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: color 0.3s ease;
+}
+
+.theme-toggle:hover {
+  color: #e03e00;
+}
+/* TEMA CLARO */
+body.light {
+  background: #f5f5f5;
+  color: #111;
+}
+
+body.light .navbar {
+  background: #fff;
+}
+
+body.light .navbar a {
+  color: #111;
+}
+
+body.light .navbar a:hover {
+  color: #ff4500;
+}
+
+body.light .cursos .card,
+body.light .trabalhos .card  {
+  border: 1px solid #ff4500;
+  background: #fff;
+}
+body.light.sobre {
+   color: #000;
+   margin-top: 15px;
+}
+
+body.dark .cursos .card,
+body.dark .trabalhos .card {
+  border: 1px solid #ff4500;
+  background: #111;
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -50,12 +97,59 @@ body {
   color: #ff4500;
 }
 
-/* Menu toggle (mobile) */
+/* Menu toggle (mobile) 
 .menu-toggle {
   display: none;
   color: #fff;
   font-size: 22px;
   cursor: pointer;
+}*/
+
+/*caixa da barra de pesquisa*/
+.nav-search{
+  display:flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 30px;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  padding: 2px 10px;
+  transition: all 0.3s ease;
+}
+
+/*input pesquisa*/
+.nav-search input[type= "search"]{
+  border: none;
+  outline: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  flex: 1;
+  color: #111;
+
+}
+
+/* Botão de pesquisa */
+.nav-search button {
+  background: #ff4500; /* cor do botão */
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+/* Ícone da lupa */
+.nav-search button i {
+  color: #fff;
+  font-size: 16px;
+}
+/* Hover no botão */
+.nav-search button:hover {
+  background: #ff4500; /* cor mais escura no hover */
 }
 
 /* INÍCIO */
@@ -86,7 +180,6 @@ body {
 /* SOBRE MIM */
 .sobre {
   padding: 40px 20px;
-  background: #111;
   position: relative;
   padding-left: calc(20px + 72px);
 }
@@ -104,10 +197,7 @@ body {
   color: #ff4500;
 }
 
-.sobre h3 {
-  margin-top: 15px;
-  color: #fff;
-}
+
 
 .sobre p {
   margin-top: 10px;
@@ -214,66 +304,59 @@ footer {
 
 
 /* RESPONSIVIDADE */
+.menu { list-style: none; }
+.menu-toggle {
+  display: none;
+  background: none;
+  border: 0;
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* MOBILE (até 768px) */
 @media (max-width: 768px) {
-  .menu {
+  .navbar { position: sticky; top: 0; z-index: 1000; }
+
+  /* escondido por padrão no mobile */
+  .navbar .menu {
     display: none;
-    flex-direction: column;
-    background: #111;
     position: absolute;
-    top: 60px;
-    right: 20px;
-    width: 200px;
-    padding: 20px;
-    border-radius: 8px;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    gap: 12px;
+   
+    padding: 16px 20px;
+    box-shadow: 0 5px 10px rgba(0,0,0,.3);
     z-index: 1000;
   }
 
-  .menu.active {
+  /* aparece quando o JS adiciona .active */
+  .navbar .menu.active {
     display: flex;
   }
 
-  .menu li {
-    margin: 10px 0;
+  .menu-toggle { display: block; }
+
+
+}
+
+/* DESKTOP (a partir de 769px) */
+@media (min-width: 769px) {
+  .navbar .menu {
+    display: flex;          
+    align-items: center;
+    gap: 20px;
+    position: static;
+    width: auto;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
   }
 
-  .menu-toggle {
-    display: block;
-    font-size: 24px;
-    color:#fff;
-    cursor: pointer;
-  }
-  .navbar ul.menu{
-    display: none;
-  }
-}
-
-.nav-search{
-  display:flex; align-items:center; gap:8px; margin-left:16px;
-}
-.nav-search input{
-  width:0; opacity:0; pointer-events:none;
-  transition:width .3s ease, opacity .2s ease;
-  background: #ff4500; border:1px solid var(--accent); color:#111;
-  border-radius:999px; padding:8px 10px; font-size:14px;
-}
-.nav-search button{
-  display:inline-flex; align-items:center; justify-content:center;
-  border:0; padding:8px 10px; border-radius:8px;
-  background:var(--accent); color:#111; cursor:pointer; transition:filter .2s;
-}
-.nav-search button:hover{ filter:brightness(0.95); }
-
-/* Abre a barrinha quando focar no formulário ou no botão */
-.nav-search:focus-within input{
-  width:180px; opacity:1; pointer-events:auto;
+  .menu-toggle { display: none; }
 }
 
 
-@media (min-width: 1100px){
-  .nav-search input{ width:180px; opacity:1; pointer-events:auto; }
-}
-
-/* Mobile: esconder a busca no topo*/
-@media (max-width: 768px){
-  .nav-search{ display:none; }
-}

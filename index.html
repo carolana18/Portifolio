@@ -5,22 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portifolio</title>
     <link rel="stylesheet" href="estilo.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-      <script>
-        // MENU RESPONSIVO
-            const toggle = document.querySelector(".menu-toggle");
-            const menu = document.querySelector(".menu");
-            toggle.addEventListener("click", () => {
-                menu.classList.toggle("active");
-            });
-        </script>
+      
     <body>
         <!-- NAVBAR -->
         <header>
             <nav class="navbar">
                 <!--botão hamburguer-->
-                <div class="menu-toggle"><i class="fa fa-bars"></i></div>
-                <!--menu ( ainda não funcionando)-->
+                <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+                <!--menu -->
                 <ul class="menu">
                     <li><a href="#inicio">INICIAL</a></li>
                     <li><a href="#sobre">SOBRE MIM</a></li>
@@ -33,6 +27,11 @@
                     <input type="search" placeholder="Pesquisar..." aria-label="Pesquisar">
                     <button type="submit" aria-label="Buscar"><i class="fa fa-search"></i></button>
                 </form>
+
+                
+                <button class="theme-toggle" aria-label="Alternar tema">
+                    <i class="fa fa-moon"></i>
+                </button>
                 
             </nav>
         </header>
@@ -78,26 +77,40 @@
         <section id="trabalhos" class="trabalhos">
             <h2>TRABALHOS</h2>
             <div class="grid">
+
                 <div class="card">
                     <h3>JOGO NONOGRAM - PYTHON</h3>
-                    <p>Jogo de lógica em Python preenchendo células da grade com base em números nas linhas e colunas.</p>
-                    <a href="jogando nonogram.zip">Ver trabalho</a>
+                    <p>Jogo de lógica em Python preenchendo células da grade com base em números nas linhas e colunas (para jogar é necessário baixar o jogo e executa no terminal).</p>
+                    <a href="downloads/downloads.zip" download="">Baixar Jogo</a>
                 </div>
+
                 <div class="card">
                     <h3>PROTÓTIPO EXTREMUS - FIGMA</h3>
                     <p>Protótipo de alta fidelidade de um aplicativo informacional  sobre enchentes e alagações em Rio Branco - Acre.</p>
                     <a href="https://www.figma.com/design/TzeEurqjEilByV0RsAiVGF/Prot%C3%B3tipo-EXTREMUS?node-id=0-1&t=Ng2LX6I89Y3K32y0-1">Ver trabalho</a>
                 </div>
+
                 <div class="card">
                     <h3>BLOG PESSOAL - HTML/CSS</h3>
                     <p>Desenvolvimento de blog pessoal usando HTML e CSS.</p>
                     <a href="blog.html">Ver trabalho</a>
                 </div>
+
                 <div class="card">
-                    <h3>CALCULADORA - PYTHON</h3>
-                    <p>Desenvolvimento de uma calculadora em Python.</p>
+                    <h3>AGENDA - C# COM BANCO DE DADOS</h3>
+                    <p>Desenvolvimento de uma agenda onde posso adicionar emails e nomes sendo salvos no banco de dados.
+                        podendo ser excluidos, editados ou adicionados.
+                    </p>
                     <a href="#">Ver trabalho</a>
                 </div>
+
+                <div class="card">
+                    <h3>JOGO DA FORCA - C#</h3>
+                    <p>Desenvolvimento do jogo da forca tradicional, onde são temas variáveis que você pode adivinhar as palavras, onde a cada erro uma parte do boneco é desenhado 
+                    </p>
+                    <a href="#">Ver trabalho</a>
+                </div>
+
             </div>
         </section>
 
@@ -111,6 +124,50 @@
                 <a href="https://www.linkedin.com/in/anacarolpassos?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app "><i class="fa-brands fa-linkedin fa-lg"></i></a>
             </div>
         </footer>
+        <script>
+        
+           // MENU RESPONSIVO
+            const toggle = document.querySelector(".menu-toggle");
+            const menu = document.querySelector(".menu");
+    
+            toggle.addEventListener("click", () => {
+                menu.classList.toggle("active");
+        
+                // Alterar ícone quando o menu está aberto/fechado
+                const icon = toggle.querySelector("i");
+                if (menu.classList.contains("active")) {
+                    icon.classList.remove("fa-bars");
+                    icon.classList.add("fa-times");
+                } else {
+                    icon.classList.remove("fa-times");
+                    icon.classList.add("fa-bars");
+                }
+            });
+        </script>
+        <script>
+            const toggleBtn = document.querySelector('.theme-toggle');
+            const icon = toggleBtn.querySelector('i');
+            const body = document.body;
+
+              // Aplica o tema salvo no localStorage
+             if (localStorage.getItem('theme')) {
+                body.className = localStorage.getItem('theme');
+                icon.className = body.classList.contains('light') ? 'fa fa-sun' : 'fa fa-moon';
+             } else {
+                body.classList.add('dark'); // padrão
+                icon.className = 'fa fa-moon';
+            }
+
+            // Alterna o tema ao clicar no botão
+            toggleBtn.addEventListener('click', () => {
+                body.classList.toggle('light');
+                body.classList.toggle('dark');
+
+            const isLight = body.classList.contains('light');
+            icon.className = isLight ? 'fa fa-sun' : 'fa fa-moon';
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+         });
+        </script>
 
     </body>
 </html>
