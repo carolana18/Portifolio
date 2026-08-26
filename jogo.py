@@ -3,9 +3,322 @@ from tkinter import messagebox # Biblioteca para exibir mensagens
 import random # Biblioteca para gerar valores aleatórios
 import ranking  # Importando o módulo de ranking
 
+#PALETA DE CORES
+
+COR_BG =  "#333333"         # Preto
+COR_TEXTO = "#FFF8BC"      # Amarelo/Creme suave
+COR_BT_FACIL = "#F4A854"   # Laranja/Dourado
+COR_BT_MEDIO = "#F3214E"   # Vermelho Vibrante
+COR_BT_DIFICIL = "#CF023B" # Vermelho Escuro
+COR_CELULA_VAZIA = "#FFF8BC"  # Amarelo Creme (botão do tabuleiro antes de clicar)
+COR_CELULA_CERTA = "#333333"  # Vermelho Vibrante ao acertar a célula
+COR_CELULA_ERRADA = "#F3214E"
+
+DESENHOS = {
+    "facil": [
+
+        #coracao
+        [
+            [0, 1, 0, 1, 0],
+            [1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1],
+            [0, 1, 1, 1, 0],
+            [0, 0, 1, 0, 0]
+        ], 
+        #sorriso
+        [
+            [0, 1, 0, 1, 0],
+            [0, 1, 0, 1, 0],
+            [0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 1],
+            [0, 1, 1, 1, 0]
+
+        ],
+        #casa
+        [
+            [0, 0, 1, 0, 0],
+            [0, 1, 1, 1, 0],
+            [1, 1, 1, 1, 1],
+            [0, 1, 0, 1, 0],
+            [0, 1, 1, 1, 0]
+        ],
+        #arvore
+        [
+            [0, 0, 1, 0, 0],
+            [0, 1, 1, 1, 0],
+            [1, 1, 1, 1, 1],
+            [0, 0, 1, 0, 0],
+            [0, 0, 1, 0, 0]
+        ],
+        #barco a vela
+        [
+            [0, 0, 1, 0, 0],
+            [0, 1, 1, 0, 0],
+            [1, 1, 1, 0, 0],
+            [0, 0, 1, 0, 0],
+            [1, 1, 1, 1, 1]
+        ],
+        #pato
+        [
+            [0, 1, 1, 0, 0],
+            [0, 1, 1, 0, 0],
+            [0, 0, 1, 0, 0],
+            [1, 1, 1, 1, 0],
+            [0, 1, 1, 1, 0]
+        ],
+
+        #maca
+        [
+           [0, 0, 1, 1, 0],
+           [0, 1, 1, 1, 1],
+           [1, 1, 1, 1, 1],
+           [1, 1, 1, 1, 1],
+           [0, 1, 0, 1, 0]
+        ],
+        #seta
+        [
+            [0, 0, 1, 0, 0],
+            [0, 0, 0, 1, 0],
+            [1, 1, 1, 1, 1],
+            [0, 0, 0, 1, 0],
+            [0, 0, 1, 0, 0]
+        ]
+    ],
+    "medio": [
+        #espada
+        [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+            [0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
+            [0, 0, 0, 0, 0, 0, 1, 1, 0, 0],
+            [0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
+            [0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
+            [0, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+            [0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+            [1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ],
+
+        #fantasma
+        [
+            [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
+            [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 1, 0, 1, 1, 1, 0, 1, 1, 0],
+            [0, 1, 0, 1, 1, 1, 0, 1, 1, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 1, 1, 0, 1, 1, 0, 1, 1, 0],
+            [0, 1, 0, 0, 1, 1, 0, 0, 1, 0]
+        ],
+
+        #cogumelo
+        [
+            [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
+            [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
+            [0, 1, 1, 0, 1, 1, 0, 1, 1, 0],
+            [1, 1, 1, 0, 1, 1, 0, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
+            [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
+            [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
+            [0, 0, 1, 1, 1, 1, 1, 1, 0, 0]
+        ],
+
+        #pacman
+        [
+            [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [1, 1, 0, 0, 1, 1, 0, 0, 1, 1],
+            [1, 1, 0, 0, 1, 1, 0, 0, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 0, 1, 1, 1, 1, 0, 1, 1],
+            [1, 0, 0, 0, 1, 1, 0, 0, 0, 1]
+        ],
+
+        #nota musical
+        [
+            [0, 0, 0, 0, 1, 1, 1, 1, 1, 0],
+            [0, 0, 0, 0, 1, 1, 1, 1, 1, 0],
+            [0, 0, 0, 0, 1, 0, 0, 0, 1, 0],
+            [0, 0, 0, 0, 1, 0, 0, 0, 1, 0],
+            [0, 0, 0, 0, 1, 0, 0, 0, 1, 0],
+            [0, 0, 0, 0, 1, 0, 0, 0, 1, 0],
+            [0, 1, 1, 0, 1, 0, 1, 1, 1, 0],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 1, 1, 0, 0, 0, 1, 1, 1, 0]
+        ],
+
+        #ancora
+        
+        [
+            [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+            [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
+            [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+            [1, 0, 0, 0, 1, 1, 0, 0, 0, 1],
+            [1, 1, 0, 0, 1, 1, 0, 0, 1, 1],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 0, 1, 1, 1, 1, 1, 1, 0, 0]
+        ],
+
+        #chave 
+        [
+            [0, 0, 1, 1, 1, 1, 0, 0, 0, 0],
+            [0, 1, 1, 0, 0, 1, 1, 0, 0, 0],
+            [0, 1, 1, 0, 0, 1, 1, 0, 0, 0],
+            [0, 0, 1, 1, 1, 1, 0, 0, 0, 0],
+            [0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
+            [0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
+            [0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 1, 1, 0, 0, 0, 0, 0]
+        ],
+
+        #caveira
+        [
+            [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 0, 0, 1, 1, 0, 0, 1, 1],
+            [1, 1, 0, 0, 1, 1, 0, 0, 1, 1],
+            [1, 1, 1, 1, 0, 0, 1, 1, 1, 1],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
+            [0, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+            [0, 0, 1, 1, 1, 1, 1, 1, 0, 0]
+        ]
+    ],
+
+    "dificil": [
+        #espada
+        [
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+            [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1],
+            [0,0,0,0,0,0,0,0,0,0,0,1,1,1,0],
+            [0,0,0,0,0,0,0,0,0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0,0,0,1,1,1,0,0,0],
+            [0,0,0,0,0,0,0,0,1,1,1,0,0,0,0],
+            [0,0,0,0,0,0,0,1,1,1,0,0,0,0,0],
+            [0,0,0,0,0,0,1,1,1,0,0,0,0,0,0],
+            [0,0,0,0,0,1,1,1,0,0,0,0,0,0,0],
+            [0,0,0,0,1,1,1,0,0,0,0,0,0,0,0],
+            [0,0,1,1,1,1,0,0,0,0,0,0,0,0,0],
+            [0,1,1,1,1,0,0,0,0,0,0,0,0,0,0],
+            [1,1,1,0,0,0,0,0,0,0,0,0,0,0,0],
+            [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        ],
+        #gamepad
+        [
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,1,1,1,1,1,1,1,1,1,1,1,0,0],
+            [0,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+            [1,1,1,0,0,1,1,1,1,1,0,0,1,1,1],
+            [1,1,0,1,0,1,1,1,1,1,0,1,0,1,1],
+            [1,1,1,0,0,1,1,1,1,1,1,1,1,1,1],
+            [1,1,1,1,1,1,1,1,1,1,0,1,0,1,1],
+            [1,1,1,1,1,1,1,1,1,1,1,0,1,1,1],
+            [1,1,1,1,1,1,1,1,1,1,0,1,0,1,1],
+            [1,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
+            [1,1,1,1,1,0,0,0,0,0,1,1,1,1,1],
+            [0,1,1,1,0,0,0,0,0,0,0,1,1,1,0],
+            [0,1,1,1,0,0,0,0,0,0,0,1,1,1,0],
+            [0,0,1,0,0,0,0,0,0,0,0,0,1,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        ],
+
+        #castelo
+        [
+            [1,0,1,0,1,0,0,0,0,0,1,0,1,0,1],
+            [1,1,1,1,1,0,0,0,0,0,1,1,1,1,1],
+            [1,1,1,1,1,0,0,1,0,0,1,1,1,1,1],
+            [1,0,1,0,1,0,1,1,1,0,1,0,1,0,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            [1,1,0,0,1,1,1,1,1,1,1,0,0,1,1],
+            [1,1,0,0,1,1,1,1,1,1,1,0,0,1,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            [1,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
+            [1,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
+            [1,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
+            [1,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
+            [1,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
+            [1,1,1,1,1,1,0,0,0,1,1,1,1,1,1]
+        ],
+
+        #caveira
+        [
+            [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0],
+            [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0],
+            [1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0],
+            [0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0],
+            [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+            [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0],
+            [0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0],
+            [0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0],
+            [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0]
+        ],
+
+        #rocket
+        [
+            [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0],
+            [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1],
+            [1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1],
+            [1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0]
+        ],
+
+        #ancora
+        [
+            [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+            [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+            [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+            [1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1],
+            [1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1],
+            [0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0],
+            [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+            [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0]
+        ]
+    ]
+
+}
 class NonogramJogo:
     def __init__(self, root, tamanho, nick):
         self.root = root # Janela principal
+        self.root.configure(bg=COR_BG)
         self.tamanho = tamanho # Tamanho do tabuleiro
         self.nick = nick # Apelido do jogador
         self.botoes = [] # Lista para armazenar os botões do tabuleiro
@@ -22,43 +335,110 @@ class NonogramJogo:
         for componentes in self.root.winfo_children():  # Remove quaisquer elementos existentes na janela
             componentes.destroy()
         # Frame para organizar os botões do menu
-        frameMenu = tk.Frame(self.root)
-        frameMenu.pack(padx=10, pady=10)
-        tk.Label(frameMenu, text="Escolha o nível de dificuldade", font=("Arial", 14)).pack(pady=10)
+        frameMenu = tk.Frame(self.root, bg=COR_BG)
+        frameMenu.pack(padx=20, pady=20)
+        tk.Label(frameMenu, text="Escolha o nível de dificuldade", 
+        font=("Arial", 14),
+        bg=COR_BG,
+        fg=COR_TEXTO).pack(pady=(0, 15))
         # Botões para selecionar o nível de dificuldade
-        btnFacil = tk.Button(frameMenu, text="Nível Fácil", command=lambda: self.iniciarJogo(5, "facil"))
-        btnFacil.pack(fill='x', pady=5)
-        btnMedio = tk.Button(frameMenu, text="Nível Médio", command=lambda: self.iniciarJogo(7, "medio"))
-        btnMedio.pack(fill='x', pady=5)
-        btnDificil = tk.Button(frameMenu, text="Nível Difícil", command=lambda: self.iniciarJogo(10, "dificil"))
-        btnDificil.pack(fill='x', pady=5)
+        btnFacil = tk.Button(frameMenu, text="Nível Fácil", 
+        font=("Arial", 11, "bold"),
+        bg=COR_BT_FACIL,
+        fg="#000000",
+        cursor="hand2",
+        relief="flat",
+        command=lambda: self.iniciarJogo(5, "facil"))
+
+        btnFacil.pack(fill='x', pady=5, ipady=3)
+        btnMedio = tk.Button(frameMenu, text="Nível Médio", 
+        font=("Arial", 11, "bold"),
+        bg=COR_BT_MEDIO,
+        fg="#FFFFFF",
+        cursor="hand2",
+        relief="flat",
+        command=lambda: self.iniciarJogo(10, "medio"))
+        btnMedio.pack(fill='x', pady=5, ipady=3)
+
+        btnDificil = tk.Button(frameMenu, text="Nível Difícil", 
+        font=("Arial", 11, "bold"),
+        bg=COR_BT_DIFICIL,
+        fg="#FFFFFF",
+        cursor="hand2",
+        relief="flat",
+        command=lambda: self.iniciarJogo(15, "dificil"))
+        btnDificil.pack(fill='x', pady=5, ipady=3)
+
         # Botão para acessar o ranking
-        btnRanking = tk.Button(frameMenu, text="Ver Ranking", command=self.abrirRanking)
-        btnRanking.pack(fill='x', pady=5)
+        btnRanking = tk.Button(frameMenu, text="Ver Ranking", 
+        font=("Arial", 11, "bold"),
+        bg=COR_TEXTO,
+        fg="#000000",
+        cursor="hand2",
+        relief="flat",
+        command=self.abrirRanking)
+        btnRanking.pack(fill='x', pady=(15, 5), ipady=3)
         # Botão para sair do jogo
-        btnSair = tk.Button(frameMenu, text="Sair", command=self.root.quit)
-        btnSair.pack(fill='x', pady=5)
+        btnSair = tk.Button(frameMenu, text="Sair", 
+        font=("Helvetica", 11, "bold"),
+        bg="#222222",
+        fg=COR_TEXTO,
+        cursor="hand2",
+        relief="flat",
+        command=self.root.quit)
+        btnSair.pack(fill='x', pady=5, ipady=3)
 
     def abrirRanking(self):
     # Abre uma janela com o ranking dos jogadores
         ranking_window = tk.Toplevel(self.root) # Janela separada
         ranking_window.title("Ranking")
+        ranking_window.configure(bg=COR_BG)
+        ranking_window.geometry("300x400")
         # Frame para organizar os dados do ranking
-        frameRanking = tk.Frame(ranking_window)
-        frameRanking.pack(padx=10, pady=10)
+        frameRanking = tk.Frame(ranking_window, bg=COR_BG)
+        frameRanking.pack(padx=15, pady=15, fill="both", expand=True)
         # Carrega os dados do ranking
         ranking_data = ranking.carregarRanking()
-        tk.Label(frameRanking, text="Ranking:", font=("Arial", 12)).pack(pady=10)
+        tk.Label(frameRanking, text="Ranking:", 
+        font=("Arial", 12),
+        bg=COR_BG,
+        fg=COR_TEXTO).pack(pady=10)
         # Exibe o ranking por níveis (fácil, médio e difícil)
         for nivel in ["facil", "medio", "dificil"]:
-            tk.Label(frameRanking, text=nivel.capitalize(), font=("Arial", 12)).pack()
-            for i in range(len(ranking_data[nivel][:5])): # Mostra os 5 melhores tempos de cada nível
-                record = ranking_data[nivel][i]
-                texto = f"{i + 1}. {record['nick']} - {record['tempo']} segundos"
-                tk.Label(frameRanking, text=texto, font=("Arial", 10)).pack()
+            tk.Label(frameRanking, text=nivel.capitalize(), 
+                font=("Arial", 12, "bold"),
+                bg=COR_BG,
+                fg=COR_BT_FACIL,
+                ).pack(pady=(5, 2))
+            if nivel in ranking_data and ranking_data[nivel]:
+                for i in range(len(ranking_data[nivel][:5])):
+                    record = ranking_data[nivel][i]
+                    texto = f"{i + 1}. {record['nick']} - {record['tempo']}s"
+                    tk.Label(
+                        frameRanking,
+                        text=texto,
+                        font=("Helvetica", 10),
+                        bg=COR_BG,
+                        fg=COR_TEXTO
+                    ).pack()
+            else:
+                tk.Label(
+                    frameRanking,
+                    text="Sem registros",
+                    font=("Helvetica", 9, "italic"),
+                    bg=COR_BG,
+                    fg="#888888"
+                ).pack()
         # Botão para fechar a janela de ranking
-        btnFechar = tk.Button(frameRanking, text="Fechar", command=ranking_window.destroy)
-        btnFechar.pack(pady=10)
+        btnFechar = tk.Button(frameRanking, 
+            text="Fechar", 
+            font=("aArial", 10, "bold"),
+            bg=COR_BT_MEDIO,
+            fg="#FFFFFF",
+            cursor="hand2",
+            relief="flat",
+            command=ranking_window.destroy)
+        btnFechar.pack(pady=15, ipady=2)
 
     def iniciarJogo(self, tamanho, nivel):
          # Inicializa o jogo com o tabuleiro baseado no tamanho e no nível selecionado
@@ -73,8 +453,8 @@ class NonogramJogo:
 
     def criarTabuleiro(self):
         # Gera a solução do tabuleiro e calcula as dicas de linhas e colunas
-        self.solucao = [[random.choice([0, 1]) for _ in range(self.tamanho)] 
-                        for _ in range(self.tamanho)]
+        self.solucao = random.choice(DESENHOS[self.nivel])
+        self.tamanho = len(self.solucao)
         self.dicasLinhas = self.gerarDicas(self.solucao) # Calcula as dicas das linhas
 
         # Calcula as dicas das colunas
@@ -108,132 +488,179 @@ class NonogramJogo:
                 dica.append(contador)
             dicas.append(dica)
         return dicas
-
     def exibirJogo(self):
-        for componentes in self.root.winfo_children():
-            componentes.destroy()
+        # Limpa elementos anteriores da tela
+        for componente in self.root.winfo_children():
+            componente.destroy()
 
-        # Cria um frame para organizar o tabuleiro do jogo.
-        frameTabuleiro = tk.Frame(self.root)
-        frameTabuleiro.pack(padx=10, pady=10)
+        # Frame Principal Centralizado
+        frameTabuleiro = tk.Frame(self.root, bg=COR_BG)
+        frameTabuleiro.pack(expand=True, pady=10)
 
-        # Adiciona as dicas das colunas (parte superior do tabuleiro)
-        for i in range(len(self.dicasColunas)):
-            coluna = self.dicasColunas[i]
-            dica_texto = ""
-            if coluna:
-                # Concatena os números das dicas da coluna, separados por espaços
-                for num in coluna:
-                    dica_texto += str(num) + " "
-                dica_texto = dica_texto.strip()
-            else:
-                # Caso não haja dicas, exibe "0".
-                dica_texto = "0"
-            # Cria um rótulo para exibir as dicas e posiciona na linha 0 (cabeçalho das colunas)
-            tk.Label(frameTabuleiro, text=dica_texto, width=5).grid(row=0, column=i+1)
+        max_dicas_col = max(len(d) for d in self.dicasColunas) if self.dicasColunas else 1
+        max_dicas_lin = max(len(d) for d in self.dicasLinhas) if self.dicasLinhas else 1
 
-        # Adiciona as dicas das linhas (à esquerda do tabuleiro)
-        for i in range(len(self.dicasLinhas)):
-            linha = self.dicasLinhas[i]
-            dica_texto = ""
-            if linha:
-                # Concatena os números das dicas da linha, separados por espaços
-                for num in linha:
-                    dica_texto += str(num) + " "
-                dica_texto = dica_texto.strip()
-            else:
-                # Caso não haja dicas, exibe "0"
-                dica_texto = "0"
-            # Cria um rótulo para exibir as dicas e posiciona na coluna 0
-            tk.Label(frameTabuleiro, text=dica_texto, width=5).grid(row=i+1, column=0)
+        # ---------------------------------------------------------
+        # 1. Células vazias (Canto Superior Esquerdo)
+        # ---------------------------------------------------------
+        for r in range(max_dicas_col):
+            for c in range(max_dicas_lin):
+                tk.Label(
+                    frameTabuleiro,
+                    text="",
+                    bg="#D9D9D9",
+                    relief="solid",
+                    bd=1,
+                    width=3,
+                    height=1
+                ).grid(row=r, column=c, sticky="nsew")
 
-        # Cria os botões do tabuleiro e os organiza no grid
-        for i in range(self.tamanho):
-            linha_botoes = [] # Lista para armazenar os botões da linha atual
-            for j in range(self.tamanho):
-                # Cria um botão para cada célula do tabuleiro, com fundo branco por padrão
-                btn = tk.Button(frameTabuleiro, width=3, height=2, bg="white", command=lambda x=i, y=j: self.marcarCelula(x, y)) # Ação ao clicar na célula
-                btn.grid(row=i+1, column=j+1, padx=0, pady=0, sticky="nsew") # Posiciona o botão no grid
-                linha_botoes.append(btn) # Adiciona o botão à linha atual
-            self.botoes.append(linha_botoes) # Adiciona a linha ao tabuleiro
+        # ---------------------------------------------------------
+        # 2. Dicas das Colunas (Topo)
+        # ---------------------------------------------------------
+        for col_idx, dica in enumerate(self.dicasColunas):
+            numeros = dica if dica else [0]
+            offset = max_dicas_col - len(numeros)
+            
+            for row_idx in range(max_dicas_col):
+                num_texto = str(numeros[row_idx - offset]) if row_idx >= offset else ""
 
-         # Configura o layout para redimensionar as células do tabuleiro proporcionalmente
-        for i in range(self.tamanho + 1):
-            frameTabuleiro.grid_rowconfigure(i, weight=1)
-            frameTabuleiro.grid_columnconfigure(i, weight=1)
-        # Adiciona um rótulo para exibir o tempo decorrido do jogo
-        self.labelTempo = tk.Label(self.root, text="Tempo: 00:00")
-        self.labelTempo.pack()
+                tk.Label(
+                    frameTabuleiro,
+                    text=num_texto,
+                    font=("Helvetica", 9, "bold"),
+                    bg="#D9D9D9",
+                    fg="#000000",
+                    relief="solid",
+                    bd=1,
+                    width=3,
+                    height=1
+                ).grid(row=row_idx, column=max_dicas_lin + col_idx, sticky="nsew")
 
-        # Adiciona um botão para sair e retornar ao menu inicial
-        btnSair = tk.Button(self.root, text="Sair", command=self.exibirMenuInicial)
-        btnSair.pack(pady=10)
-        # Inicia o cronômetro do jogo, se necessário
+        # ---------------------------------------------------------
+        # 3. Dicas das Linhas (Esquerda) e Tabuleiro
+        # ---------------------------------------------------------
+        for lin_idx, dica in enumerate(self.dicasLinhas):
+            numeros = dica if dica else [0]
+            offset = max_dicas_lin - len(numeros)
+
+            # Células de dicas das linhas
+            for col_idx in range(max_dicas_lin):
+                num_texto = str(numeros[col_idx - offset]) if col_idx >= offset else ""
+
+                tk.Label(
+                    frameTabuleiro,
+                    text=num_texto,
+                    font=("Helvetica", 9, "bold"),
+                    bg="#D9D9D9",
+                    fg="#000000",
+                    relief="solid",
+                    bd=1,
+                    width=3,
+                    height=1
+                ).grid(row=max_dicas_col + lin_idx, column=col_idx, sticky="nsew")
+
+            # Botões do Tabuleiro (Mesmo tamanho visual das dicas)
+            linha_botoes = []
+            for col_idx in range(self.tamanho):
+                btn = tk.Button(
+                    frameTabuleiro,
+                    text="",
+                    bg=COR_CELULA_VAZIA,
+                    activebackground=COR_BT_FACIL,
+                    relief="raised",
+                    bd=1,
+                    width=3,      # Mesma largura de texto (3 caracteres)
+                    height=1,     # Mesma altura
+                    cursor="hand2",
+                    command=lambda x=lin_idx, y=col_idx: self.marcarCelula(x, y)
+                )
+                btn.grid(row=max_dicas_col + lin_idx, column=max_dicas_lin + col_idx, padx=1, pady=1, sticky="nsew")
+                linha_botoes.append(btn)
+            self.botoes.append(linha_botoes)
+
+        # ---------------------------------------------------------
+        # RÓTULO DE TEMPO E BOTÃO SAIR
+        # ---------------------------------------------------------
+        self.labelTempo = tk.Label(
+            self.root,
+            text="Tempo: 00:00",
+            font=("Helvetica", 11, "bold"),
+            bg=COR_BG,
+            fg=COR_TEXTO
+        )
+        self.labelTempo.pack(pady=5)
+
+        btnSair = tk.Button(
+            self.root,
+            text="Voltar ao Menu",
+            font=("Helvetica", 10, "bold"),
+            bg=COR_BT_FACIL,
+            fg="#000000",
+            relief="flat",
+            cursor="hand2",
+            command=self.exibirMenuInicial
+        )
+        btnSair.pack(pady=10, ipady=2)
+
         if self.iniciarCronometro:
             self.atualizarCronometro()
-#IMPORTANTE
+
     def atualizarCronometro(self):
-         # Verifica se o jogo está ativo e se o rótulo do tempo ainda existe
-        if self.jogoAtivo and self.labelTempo.winfo_exists():
-            # Incrementa o tempo em 1 segundo
+        if self.jogoAtivo and hasattr(self, 'labelTempo') and self.labelTempo.winfo_exists():
             self.tempo += 1
-            minutos = self.tempo // 60 # Calcula os minutos
-            segundos = self.tempo % 60 # Calcula os segundos restantes
-            # Atualiza o rótulo com o novo tempo
-            self.labelTempo.config(text=f"Tempo: {minutos:02}:{segundos:02}")
-            # Agenda a próxima chamada desta função em 1 segundo
+            minutos = self.tempo // 60
+            segundos = self.tempo % 60
+            self.labelTempo.config(text=f"Tempo: {minutos:02d}:{segundos:02d}")
             self.root.after(1000, self.atualizarCronometro)
-#IMPORTANTE
+
     def marcarCelula(self, x, y):
-        # Impede ações caso o jogo tenha terminado
         if not self.jogoAtivo:
             return
-        # Obtém o botão correspondente à célula clicada
+
         btn = self.botoes[x][y]
         if self.solucao[x][y] == 1:
-            # Se a célula está correta, muda a cor para preto
-            btn.config(bg="black")
+            btn.config(bg=COR_CELULA_CERTA, state="disabled")
         else:
-            # Se a célula está incorreta, muda a cor para vermelho
-            btn.config(bg="red")
-            # Verifica se houve erro e se a vitória foi alcançada
-        self.verificarErro(x, y)
+            btn.config( 
+                       state="disabled" , text="X",                # Desenha o 'X'
+                       fg="#F3214E",            # Cor Vermelha do 'X'
+                       font=("Arial", 9, "bold"),
+                       relief="sunken")
+            self.verificarErro(x, y)
+
         self.verificarVitoria()
-#IMPORTANTE
+
     def verificarErro(self, x, y):
-        # Se a célula clicada está incorreta, exibe uma mensagem de erro
-        if self.solucao[x][y] == 0:
-            messagebox.showerror("Erro", "Você cometeu um erro!")
-#IMPORTANTE
+        #if self.solucao[x][y] == 0:
+            # messagebox.showerror("Erro", "Você cometeu um erro!")
+         pass
+
     def verificarVitoria(self):
-        # Verifica se todas as células corretas foram marcadas
         for i in range(self.tamanho):
             for j in range(self.tamanho):
-                # Se uma célula correta não foi marcada, ainda não há vitória
-                if self.botoes[i][j].cget("bg") != "black" and self.solucao[i][j] == 1:
+                # Se uma célula correta não possui a cor de acerto, ainda não venceu
+                if self.solucao[i][j] == 1 and self.botoes[i][j].cget("bg") != COR_CELULA_CERTA:
                     return
-        # Se todas as células corretas foram marcadas, o jogador vence
-        self.jogoAtivo = False # Desativa o jogo
+
+        self.jogoAtivo = False
         messagebox.showinfo("Vitória", f"Você ganhou! Tempo: {self.tempo} segundos")
-        # Atualiza o ranking com o tempo do jogador e retorna ao menu inicial
         self.atualizarRanking()
         self.exibirMenuInicial()
 
     def atualizarRanking(self):
-        # Carrega os dados do ranking existente
         ranking_data = ranking.carregarRanking()
-        # Adiciona o tempo atual ao ranking do nível correspondente
+        if self.nivel not in ranking_data:
+            ranking_data[self.nivel] = []
+
         ranking_data[self.nivel].append({"nick": self.nick, "tempo": self.tempo})
-        # Ordena o ranking pelo tempo e mantém apenas os 5 melhores tempos
-        ranking_data[self.nivel] = sorted(ranking_data[self.nivel], key=lambda x: x["tempo"])[:5]  
-         # Salva os dados do ranking atualizado
+        ranking_data[self.nivel] = sorted(ranking_data[self.nivel], key=lambda x: x["tempo"])[:5]
         ranking.salvarRanking(ranking_data)
 
+
 def iniciarJogo(nick):
-    # Inicializa a janela principal do jogo
     root = tk.Tk()
     root.title("Jogo Nonogram")
-    # Cria uma instância do jogo, passando a janela, tamanho do tabuleiro e o apelido do jogador
+    root.configure(bg=COR_BG)
     jogo = NonogramJogo(root, tamanho=5, nick=nick)
-    # Inicia o loop principal da interface gráfica
     root.mainloop()
